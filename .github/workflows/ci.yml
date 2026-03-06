@@ -52,6 +52,13 @@ jobs:
         node -v
         npm -v
     - run: npm install
+    - name: Cache webpack build cache
+      uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57
+      with:
+        path: node_modules/.cache
+        key: ${{ runner.os }}-webpack-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-webpack-
     - run: make
     - name: Check config.js syntax
       run: node config.js
